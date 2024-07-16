@@ -4,20 +4,24 @@ import jakarta.persistence.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
 @Entity
+@SequenceGenerator(name = "seqIdGen", initialValue = 20000, allocationSize = 1)
 @Table(name = "students")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdGen")
     private Long id;
-    @NotNull
-    private String firstName;
     @NotBlank
+    private String firstName;
+    @NotEmpty
     private String lastName;
     @Email
+    @NotBlank
+    @Column(unique = true)
     private String email;
 
     public Long getId() {
